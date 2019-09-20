@@ -51,7 +51,7 @@ class QueuedJobsTable extends Table
     /**
      * initialize Table
      *
-     * @param  array $config Configuration
+     * @param array $config Configuration
      * @return void
      */
     public function initialize(array $config)
@@ -90,18 +90,17 @@ class QueuedJobsTable extends Table
      * - group: Used to group similar QueuedJobs
      * - reference: An optional reference string
      *
-     * @param  string           $jobName Job name
-     * @param  array|null       $data    Array of data
-     * @param  array            $config  Config to save along with the job
+     * @param string $jobName Job name
+     * @param array|null $data Array of data
+     * @param array $config Config to save along with the job
      * @return \Cake\ORM\Entity Saved job entity
      * @throws \Exception
      */
     public function createJob($jobName, array $data = null, array $config = [])
     {
         $queuedJob = [
-            'job_type' => $jobName,
-            //'data' => is_array($data) ? json_encode($data) : null,
-            'data'      => is_array($data) ? serialize($data) : null,
+            'job_type'  => $jobName,
+            'data'      => is_array($data) ? json_encode($data) : null,
             'job_group' => !empty($config['group']) ? $config['group'] : null,
             'notbefore' => !empty($config['notBefore']) ? new Time($config['notBefore']) : null,
         ] + $config;
@@ -118,7 +117,7 @@ class QueuedJobsTable extends Table
      * Returns the number of items in the queue.
      * Either returns the number of ALL pending jobs, or the number of pending jobs of the passed type.
      *
-     * @param  string|null $type Job type to Count
+     * @param string|null $type Job type to Count
      * @return int
      */
     public function getLength($type = null)
@@ -190,8 +189,8 @@ class QueuedJobsTable extends Table
      * Look for a new job that can be processed with the current abilities and
      * from the specified group (or any if null).
      *
-     * @param  array                              $capabilities Available QueueWorkerTasks.
-     * @param  string|null                        $group        Request a job from this group, (from any group if null)
+     * @param array $capabilities Available QueueWorkerTasks.
+     * @param string|null $group Request a job from this group, (from any group if null)
      * @return \Queue\Model\Entity\QueuedJob|null
      */
     public function requestJob(array $capabilities, $group = null)
@@ -275,9 +274,9 @@ class QueuedJobsTable extends Table
     }
 
     /**
-     * @param  int   $id       ID of job
-     * @param  float $progress Value from 0 to 1
-     * @return bool  Success
+     * @param int $id ID of job
+     * @param float $progress Value from 0 to 1
+     * @return bool Success
      */
     public function updateProgress($id, $progress)
     {
@@ -291,8 +290,8 @@ class QueuedJobsTable extends Table
     /**
      * Mark a job as Completed, removing it from the queue.
      *
-     * @param  \Queue\Model\Entity\QueuedJob $job Job
-     * @return bool                          Success
+     * @param \Queue\Model\Entity\QueuedJob $job Job
+     * @return bool Success
      */
     public function markJobDone(QueuedJob $job)
     {
@@ -307,9 +306,9 @@ class QueuedJobsTable extends Table
     /**
      * Mark a job as Failed, incrementing the failed-counter and Requeueing it.
      *
-     * @param  \Queue\Model\Entity\QueuedJob $job            Job
-     * @param  string|null                   $failureMessage Optional message to append to the failure_message field.
-     * @return bool                          Success
+     * @param \Queue\Model\Entity\QueuedJob $job Job
+     * @param string|null $failureMessage Optional message to append to the failure_message field.
+     * @return bool Success
      */
     public function markJobFailed(QueuedJob $job, $failureMessage = null)
     {
@@ -422,10 +421,10 @@ class QueuedJobsTable extends Table
     /**
      * Custom find method, as in `find('progress', ...)`.
      *
-     * @param  string $state   Current state
-     * @param  array  $query   Parameters
-     * @param  array  $results Results
-     * @return array  Query/Results based on state
+     * @param string $state Current state
+     * @param array $query Parameters
+     * @param array $results Results
+     * @return array         Query/Results based on state
      */
     protected function _findProgress($state, $query = [], $results = [])
     {
@@ -555,8 +554,8 @@ class QueuedJobsTable extends Table
     }
 
     /**
-     * @param  int  $pid
-     * @param  int  $sig Signal (defaults to graceful SIGTERM = 15)
+     * @param int $pid
+     * @param int $sig Signal (defaults to graceful SIGTERM = 15)
      * @return void
      */
     public function terminateProcess($pid, $sig = SIGTERM)
