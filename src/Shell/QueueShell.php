@@ -207,8 +207,7 @@ TEXT;
                 $taskname = 'Queue' . $queuedTask['job_type'];
 
                 try {
-                    //$data = json_decode($queuedTask['data'], true);
-                    $data = unserialize($queuedTask['data']);
+                    $data = json_decode($queuedTask['data'], true);
                     /* @var \Queue\Shell\Task\QueueTask $task */
                     $task   = $this->{$taskname};
                     $return = $task->run((array)$data, $queuedTask['id']);
